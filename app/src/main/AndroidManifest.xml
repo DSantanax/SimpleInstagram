@@ -26,6 +26,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleInstagram">
+
+        <!-- make sure within the application tag, otherwise app will crash with XmlResourceParser errors -->
+        <!-- If you are targeting Android API 24 or higher, private File URI resources (file:///) cannot be shared.
+        You must instead wrap the File object as a content provider (content://) using the FileProvider class.-->
+        <!-- The application should be a content provider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.simpleinstagram"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!-- the android:authorities should match up with FileProvider.getUriForFile's authority in Main launchCamera()-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
         <activity android:name=".LoginActivity">
 <!--            intent MAIN & LAUNCHER is used to open this activity for the first time -->
             <intent-filter>
