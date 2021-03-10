@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SimpleInstagram</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="description">Description...</string>
+    <string name="btnCaptureImage">Take Picture</string>
+    <string name="image">Image</string>
+    <string name="submit">Submit</string>
+</resources>
