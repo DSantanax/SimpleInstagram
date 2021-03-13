@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etLoginUsername;
     private EditText etLoginPassword;
     private Button btnLogin;
+    private Button btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         etLoginUsername = findViewById(R.id.etLoginUsername);
         etLoginPassword = findViewById(R.id.etLoginPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignUp = findViewById(R.id.btnSignUp);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +49,38 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick SignUp");
+                String username = etLoginUsername.getText().toString();
+                String password = etLoginPassword.getText().toString();
+                signUpUser(username, password);
+            }
+        });
+
+    }
+
+    // TODO check if user already exists
+    private void signUpUser(String username, String password) {
+        Log.i(TAG, "Attempting to create a user: " + username);
+        ParseUser parseUser = new ParseUser();
+        parseUser.setUsername(username);
+        parseUser.setPassword(password);
+
+        parseUser.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                // if null is not empty, there is an error
+                if(e != null) {
+                    Toast.makeText(LoginActivity.this, "Sign up failed: " + e, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // else continue
+                    gotoMainActivity();
+                    Toast.makeText(LoginActivity.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loginUser(String username, String password) {

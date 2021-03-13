@@ -1,5 +1,6 @@
 package com.example.simpleinstagram;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -12,12 +13,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -28,6 +31,8 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
+// TODO add app icon
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivPostImage;
     private Button btnCaptureImage;
     private Button btnSubmit;
+    private BottomNavigationView bottomNavigationView;
     // used for the file reference at the location
     // photoFile will be used to save Post
     private File photoFile;
@@ -50,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        // listener to launch the camera
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         // test getting all the posts from the Post class in B4A
         // queryPosts();
 
+        // listener to submit the post
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +93,26 @@ public class MainActivity extends AppCompatActivity {
                 // get the current user & save the Post
                 ParseUser currUser = ParseUser.getCurrentUser();
                 savePost(description, currUser, photoFile);
+            }
+        });
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        // add RV of posts
+                        return true;
+                    case R.id.action_post:
+                        // move to the posts
+                        return true;
+                    case R.id.action_profile:
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        // don't need to finish
+                        return true;
+                }
+                return false;
             }
         });
     }
@@ -186,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //  query the posts in the B4A
     private void queryPosts() {
         // specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
