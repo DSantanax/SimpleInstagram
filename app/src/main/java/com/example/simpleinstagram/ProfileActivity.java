@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
+// TODO add a bottom navigation bar to all activities, and checked icon to current activity
 public class ProfileActivity extends AppCompatActivity {
 
     private Button btnLogout;
