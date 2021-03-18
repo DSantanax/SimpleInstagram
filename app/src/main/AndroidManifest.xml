@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleInstagram">
 <!--        declare activities within the app -->
-        <activity android:name=".ProfileActivity" />
         <!-- make sure within the application tag, otherwise app will crash with XmlResourceParser errors -->
         <!--
  If you are targeting Android API 24 or higher, private File URI resources (file:///) cannot be shared.
@@ -49,7 +48,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

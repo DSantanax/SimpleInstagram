@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.simpleinstagram.fragments.ComposeFragment;
+import com.example.simpleinstagram.fragments.PostsFragment;
+import com.example.simpleinstagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -37,6 +41,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    // used to swap the fragments to replace the FrameLayout with the fragment
+    final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +58,26 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 // switch between layouts
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        // add RV of posts
-                        break;
-                    case R.id.action_post:
-                        // move to the posts
-                        break;
-                    case R.id.action_profile:
-                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                        // don't need to finish
-                        break;
-                    default:
-                        break;
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.action_home) { // add RV of posts
+                    // TODO update for action home
+                    Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
+                    fragment = new PostsFragment();
+                } else if (itemId == R.id.action_post) {// move to the posts
+                    Toast.makeText(MainActivity.this, "Post!", Toast.LENGTH_SHORT).show();
+                    fragment = new ComposeFragment();
+                } else {// for default and the action profile case
+                    Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
+                    fragment = new ProfileFragment();
+                    // do not need to call finish()
                 }
+                // replace the frame layout with the user selected fragment
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
+        // set default selection (when loading up the app)
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 }
