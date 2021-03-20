@@ -16,6 +16,7 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
+    public static final String KEY_CREATED_AT = "createdAt";
 
     // getters/setters for the keys (name for the columns in the class B4A)
 

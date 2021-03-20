@@ -33,6 +33,7 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -104,10 +105,6 @@ public class ComposeFragment extends Fragment {
             }
         });
 
-
-        // test getting all the posts from the Post class in B4A
-        // queryPosts();
-
         // listener to submit the post
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +141,7 @@ public class ComposeFragment extends Fragment {
 
         // wrap File object into a content provider
         // required for API >= 24, fileProvider wraps the photoFile
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.example.simpleinstagram", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(Objects.requireNonNull(getContext()), "com.example.simpleinstagram", photoFile);
         // where do we want the output image
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -193,7 +190,7 @@ public class ComposeFragment extends Fragment {
         // use getExternalFilesDir on context to access package-specific directories
         // this way, we do not need to request external read/write runtime permission
         // need to use getContext().getExternalFilesDir
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        File mediaStorageDir = new File(Objects.requireNonNull(getContext()).getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // create the storage directory if it DNE
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
@@ -232,31 +229,6 @@ public class ComposeFragment extends Fragment {
                 ivPostImage.setImageResource(0);
             }
         });
-    }
-
-    //  query the posts in the B4A
-    private void queryPosts() {
-        // specify which class to query
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        // we want to also get the User who made the post
-        query.include(Post.KEY_USER);
-        // find the Post objects using the query
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                // error if not null
-                if(e != null) {
-                    Log.e(TAG, "Issue with getting posts: ", e);
-                    return;
-                }
-                // data was received successfully
-                for(Post post : posts){
-                    // getUser returns the ParseUser which we would need to get the actual Username
-                    Log.i(TAG, "Posts received: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-            }
-        });
-
     }
 
 }

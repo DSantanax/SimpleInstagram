@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.action_home) { // add RV of posts
                     // TODO update for action home
-                    Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
                     fragment = new PostsFragment();
                 } else if (itemId == R.id.action_post) {// move to the posts
-                    Toast.makeText(MainActivity.this, "Post!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Post!", Toast.LENGTH_SHORT).show();
                     fragment = new ComposeFragment();
                 } else {// for default and the action profile case
-                    Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                     fragment = new ProfileFragment();
                     // do not need to call finish()
                 }
