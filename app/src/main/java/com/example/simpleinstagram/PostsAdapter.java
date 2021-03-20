@@ -46,6 +46,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         return posts.size();
     }
 
+    public void clear() {
+        // clear posts
+        posts.clear();
+        // notify adapter
+        notifyDataSetChanged();
+    }
+
     // view holder for the views
     class ViewHolder extends RecyclerView.ViewHolder {
 

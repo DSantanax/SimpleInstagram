@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,11 +33,11 @@ public class PostsFragment extends Fragment {
 
     private RecyclerView rvPosts;
     public static final String TAG = "PostsFragment";
-    // for Data source
-    private ArrayList<Post> posts;
-    // for RV
-    private PostsAdapter postsAdapter;
-    private List<Post> allPosts;
+    // for RV, used also in ProfileFragment (child inherited class)
+    protected PostsAdapter postsAdapter;
+    // for Data source, protected (for inheritance)
+    protected List<Post> allPosts;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -72,16 +73,29 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // create
+        // reference the views
         rvPosts = view.findViewById(R.id.rvPosts);
+        swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
         allPosts = new ArrayList<>();
         postsAdapter = new PostsAdapter(getContext(), allPosts);
 
-        // 0. create layout for one row in list
+        // refresh container
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
-        // 1. create adapter
+                // clear the data set first (call to clear data/notify adapter)
+                postsAdapter.clear();
+                // update adapter
+                queryPosts();
+                // not refreshing
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        // 0. create layout for one row in list (item_post.xml)
+        // 1. create adapter (PostsAdapter class)
         // 2. create data source (Posts class)
-
         // 3, set the adapter on rv
         rvPosts.setAdapter(postsAdapter);
         // 4. set the layout manager on rv (Vertical linear layout by default for Linear)
@@ -91,7 +105,7 @@ public class PostsFragment extends Fragment {
 
     }
     //  query the posts in the B4A
-    private void queryPosts() {
+    protected void queryPosts() {
         // specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // we want to also get the User who made the post

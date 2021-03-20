@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment"
+    tools:context=".fragments.SettingFragment"
     android:layout_margin="16dp"
     >
 
@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/log_out"
-        android:backgroundTint="@color/black"/>
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        android:text="@string/log_out" />
 
 </RelativeLayout>

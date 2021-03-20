@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.simpleinstagram.fragments.ComposeFragment;
 import com.example.simpleinstagram.fragments.PostsFragment;
 import com.example.simpleinstagram.fragments.ProfileFragment;
+import com.example.simpleinstagram.fragments.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.action_post) {// move to the posts
 //                    Toast.makeText(MainActivity.this, "Post!", Toast.LENGTH_SHORT).show();
                     fragment = new ComposeFragment();
+                }
+                else if(itemId == R.id.action_setting) {
+                       fragment = new SettingFragment();
                 } else {// for default and the action profile case
 //                    Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                     fragment = new ProfileFragment();
